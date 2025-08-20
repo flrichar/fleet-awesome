@@ -1,0 +1,27 @@
+---
+defaultNamespace: istio-system
+
+labels:
+  fleet-bundle: istio-mini
+
+helm:
+  chart: istiod
+  repo: https://istio-release.storage.googleapis.com/charts
+  version: 1.27.0
+  values:
+    istiod:
+      profile: minimal
+    gateway:
+      enabled: true
+  releaseName: istio-mini
+  takeOwnership: false
+
+kustomize:
+  dir: ""
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        istio-mini: enabled
+
+###
