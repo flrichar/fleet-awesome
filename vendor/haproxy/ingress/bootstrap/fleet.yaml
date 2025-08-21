@@ -1,0 +1,19 @@
+---
+defaultNamespace: haproxytech
+
+labels:
+  fleet-bundle: haproxy-bootstrap
+
+kustomize:
+  dir: ""
+
+helm:
+  releaseName: haproxy-bootstrap
+  takeOwnership: true
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        haproxy-ingress: enabled
+
+###
