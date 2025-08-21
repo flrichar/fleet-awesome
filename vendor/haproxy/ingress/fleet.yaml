@@ -27,6 +27,8 @@ helm:
         name: haproxy-ingress-values
         key: values.yaml
 
+kustomize:
+  dir: ./bootstrap
 
 overrideTargets:
   - clusterGroupSelector:
