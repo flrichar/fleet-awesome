@@ -8,9 +8,11 @@ helm:
   chart: oci://ghcr.io/haproxytech/helm-charts/kubernetes-ingress
   version: 1.44.6
   releaseName: haproxy-ingress
-  takeOwnership: false
+  takeOwnership: true
   waitForJobs: false
   values:
+    crdjob:
+      ttlSecondsAfterFinished: 8640000
     controller:
       replicaCount: 1
       kubernetesGateway:
@@ -22,13 +24,13 @@ helm:
             protocol: TCP
             port: 8000
             targetPort: 8000
-  valuesFrom:
-    - configMapKeyRef:
-        name: haproxy-ingress-values
-        key: values.yaml
 
-kustomize:
-  dir: ./bootstrap
+##  valuesFrom:
+##    - configMapKeyRef:
+##       name: haproxy-ingress-values
+##       key: values.yaml
+##kustomize:
+##  dir: ./bootstrap
 
 overrideTargets:
   - clusterGroupSelector:
