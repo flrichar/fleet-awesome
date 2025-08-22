@@ -1,12 +1,7 @@
 ### Ngrok Operator
 
-Ngrok tunnel management controller for Kubernetes Ingress.
+Ngrok tunnel management controller for Kubernetes Ingress. The Ngrok project is a good tunneling tool for local development, complete with Gateway API support.
 
 The ingress-controller will be deprecated soon, should switch to the [ngrok-operator](https://ngrok.com/docs/k8s/installation/install/). 
-
-_TODO_
-- [x] depends on above secrets/bootstrap management
-- [x] handle credential secrets, `credentials.apiKey` and `credentials.authtoken` from secrets-store/bootstrap secret
-- [ ] several ingress examples, including gitops/fleet-gitrepo related webhooks
 
 ...
