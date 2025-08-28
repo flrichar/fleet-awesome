@@ -1,6 +1,6 @@
 ---
 resources:
-- https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+- https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml
 ##- github.com/rancher/local-path-provisioner/tree/master/deploy/chart/local-path-provisioner
 
 ###
