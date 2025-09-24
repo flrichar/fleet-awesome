@@ -7,7 +7,7 @@ labels:
 helm:
   chart: openbao
   repo: https://openbao.github.io/openbao-helm
-  version: 0.16.0
+  version: 0.18.2
   releaseName: openbao
   takeOwnership: false
 ##  valuesFiles:
