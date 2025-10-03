@@ -1,0 +1,21 @@
+---
+defaultNamespace: kube-system
+
+labels:
+  fleet-bundle: csi-driver-nfs
+
+helm:
+  chart: csi-driver-nfs
+  repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+  version: 4.11.0
+  takeOwnership: false
+  releaseName: csi-driver-nfs
+  valuesFiles: 
+    - values.yaml
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        csi-driver-nfs: enabled
+
+###
