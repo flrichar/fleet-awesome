@@ -7,7 +7,7 @@ labels:
 helm:
   repo: https://topolvm.github.io/topolvm
   chart: topolvm
-  version: 15.5.6
+  version: 15.7.0
   releaseName: topolvm
   valuesFiles:
     - btrfs-values.yaml
