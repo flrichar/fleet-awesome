@@ -1,0 +1,18 @@
+---
+defaultNamespace: milvus
+
+labels:
+  fleet-bundle: milvus
+
+helm:
+  chart: oci://dp.apps.rancher.io/charts/milvus
+  version: 4.2.2
+  releaseName: milvus
+  takeOwnership: false
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        appco.milvus: enabled
+
+###

@@ -1,0 +1,597 @@
+global:
+  # -- Global override for container image registry
+  imageRegistry: ""
+  # -- Global override for container image registry pull secrets
+  imagePullSecrets: []
+## Expand the name of the chart
+nameOverride: ""
+## Default fully qualified app name
+fullnameOverride: ""
+## Enable or disable Milvus Cluster mode
+cluster:
+  enabled: true
+image:
+  all:
+    registry: dp.apps.rancher.io
+    repository: containers/milvus
+    tag: 2.4.6
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistryKeySecretName
+# Global node selector
+# If set, this will apply to all milvus components
+# Individual components can be set to a different node selector
+nodeSelector: {}
+# Global tolerations
+# If set, this will apply to all milvus components
+# Individual components can be set to a different tolerations
+tolerations: []
+# Global affinity
+# If set, this will apply to all milvus components
+# Individual components can be set to a different affinity
+affinity: {}
+# Global labels and annotations
+# If set, this will apply to all milvus components
+labels: {}
+annotations: {}
+##
+## If set, the whole config will be mounted from this custom ConfigMap.
+## The ConfigMap should have a key named `milvus.yaml` which contains the full Milvus config.
+## extraConfigFiles will be ignored if this variable is set.
+##
+customConfigMap: ""
+# Extra configs for milvus.yaml
+# If set, this config will merge into milvus.yaml
+# Please follow the config structure in the milvus.yaml
+# at https://github.com/milvus-io/milvus/blob/master/configs/milvus.yaml
+# Note: this config will be the top priority which will override the config
+# in the image and helm chart.
+extraConfigFiles:
+  user.yaml: |+
+    #    For example enable rest http for milvus proxy
+    #    proxy:
+    #      http:
+    #        enabled: true
+    #      maxUserNum: 100
+    #      maxRoleNum: 10
+    ##  Enable tlsMode and set the tls cert and key
+    #  tls:
+    #    serverPemPath: /etc/milvus/certs/tls.crt
+    #    serverKeyPath: /etc/milvus/certs/tls.key
+    #   common:
+    #     security:
+    #       tlsMode: 1
+
+## Expose the Milvus service to be accessed from outside the cluster (LoadBalancer service).
+## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+service:
+  type: ClusterIP
+  port: 19530
+  portName: milvus
+  nodePort: ""
+  annotations: {}
+  labels: {}
+  ## List of IP addresses at which the Milvus service is available
+  ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+  ##
+  externalIPs: []
+  #   - externalIp1
+
+  # LoadBalancerSourcesRange is a list of allowed CIDR values, which are combined with ServicePort to
+  # set allowed inbound rules on the security group assigned to the master load balancer
+  loadBalancerSourceRanges:
+    - 0.0.0.0/0
+    # Optionally assign a known public LB IP
+    # loadBalancerIP: 1.2.3.4
+ingress:
+  enabled: false
+  ingressClassName: ""
+  annotations:
+    # Annotation example: set nginx ingress type
+    # kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/listen-ports-ssl: '[19530]'
+    nginx.ingress.kubernetes.io/proxy-body-size: 4m
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels: {}
+  rules:
+    - host: "milvus-example.local"
+      path: "/"
+      pathType: "Prefix"
+      # - host: "milvus-example2.local"
+      #   path: "/otherpath"
+      #   pathType: "Prefix"
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - milvus-example.local
+serviceAccount:
+  create: false
+  name:
+  annotations:
+  labels:
+metrics:
+  enabled: true
+  serviceMonitor:
+    # Set this to `true` to create ServiceMonitor for Prometheus operator
+    enabled: false
+    interval: "30s"
+    scrapeTimeout: "10s"
+    # Additional labels that can be used so ServiceMonitor will be discovered by Prometheus
+    additionalLabels: {}
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 90
+  periodSeconds: 30
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 90
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+log:
+  level: "info"
+  file:
+    maxSize: 300 # MB
+    maxAge: 10 # day
+    maxBackups: 20
+  format: "text" # text/json
+  persistence:
+    mountPath: "/milvus/logs"
+    ## If true, create/use a Persistent Volume Claim
+    ## If false, use emptyDir
+    ##
+    enabled: false
+    annotations:
+      helm.sh/resource-policy: keep
+    persistentVolumeClaim:
+      existingClaim: ""
+      ## Milvus Logs Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.
+      ## ReadWriteMany access mode required for milvus cluster.
+      ##
+      storageClass:
+      accessModes: ReadWriteMany
+      size: 10Gi
+      subPath: ""
+standalone:
+  replicas: 1 # Run standalone mode with replication disabled
+  resources: {}
+  # Set local storage size in resources
+  # resources:
+  #   limits:
+  #     ephemeral-storage: 100Gi
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  disk:
+    enabled: true
+    size:
+      enabled: false # Enable local storage size limit
+  profiling:
+    enabled: false # Enable live profiling
+  ## Default message queue for milvus standalone
+  ## Supported value: rocksmq, natsmq, and kafka
+  messageQueue: rocksmq
+  persistence:
+    mountPath: "/var/lib/milvus"
+    ## If true, alertmanager will create/use a Persistent Volume Claim
+    ## If false, use emptyDir
+    ##
+    enabled: true
+    annotations:
+      helm.sh/resource-policy: keep
+    persistentVolumeClaim:
+      existingClaim: ""
+      ## Milvus Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.
+      ##
+      storageClass:
+      accessModes: ReadWriteOnce
+      size: 50Gi
+      subPath: ""
+proxy:
+  enabled: true
+  # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
+  replicas: 1
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  http:
+    enabled: true # whether to enable http rest server
+    debugMode:
+      enabled: false
+  # Mount a TLS secret into proxy pod
+  tls:
+    enabled: false
+    ## when enabling proxy.tls, all items below should be uncommented and the key and crt values should be populated.
+    #    enabled: true
+    #    secretName: milvus-tls
+    ## expecting base64 encoded values here: i.e. $(cat tls.crt | base64 -w 0) and $(cat tls.key | base64 -w 0)
+    #    key: LS0tLS1CRUdJTiBQU--REDUCT
+    #    crt: LS0tLS1CRUdJTiBDR--REDUCT
+    #  volumes:
+    #  - secret:
+    #      secretName: milvus-tls
+    #    name: milvus-tls
+    #  volumeMounts:
+    #  - mountPath: /etc/milvus/certs/
+    #    name: milvus-tls
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+rootCoordinator:
+  enabled: true
+  # You can set the number of replicas greater than 1, only if enable active standby
+  replicas: 1 # Run Root Coordinator mode with replication disabled
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  activeStandby:
+    enabled: false # Enable active-standby when you set multiple replicas for root coordinator
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+  service:
+    port: 53100
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+queryCoordinator:
+  enabled: true
+  # You can set the number of replicas greater than 1, only if enable active standby
+  replicas: 1 # Run Query Coordinator mode with replication disabled
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  activeStandby:
+    enabled: false # Enable active-standby when you set multiple replicas for query coordinator
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+  service:
+    port: 19531
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+queryNode:
+  enabled: true
+  # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
+  replicas: 1
+  resources: {}
+  # Set local storage size in resources
+  # resources:
+  #   limits:
+  #     ephemeral-storage: 100Gi
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  disk:
+    enabled: true # Enable querynode load disk index, and search on disk index
+    size:
+      enabled: false # Enable local storage size limit
+  profiling:
+    enabled: false # Enable live profiling
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+indexCoordinator:
+  enabled: true
+  # You can set the number of replicas greater than 1, only if enable active standby
+  replicas: 1 # Run Index Coordinator mode with replication disabled
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  activeStandby:
+    enabled: false # Enable active-standby when you set multiple replicas for index coordinator
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+  service:
+    port: 31000
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+indexNode:
+  enabled: true
+  # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
+  replicas: 1
+  resources: {}
+  # Set local storage size in resources
+  # limits:
+  #    ephemeral-storage: 100Gi
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  disk:
+    enabled: true # Enable index node build disk vector index
+    size:
+      enabled: false # Enable local storage size limit
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+dataCoordinator:
+  enabled: true
+  # You can set the number of replicas greater than 1, only if enable active standby
+  replicas: 1 # Run Data Coordinator mode with replication disabled
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  activeStandby:
+    enabled: false # Enable active-standby when you set multiple replicas for data coordinator
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+  service:
+    port: 13333
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+dataNode:
+  enabled: true
+  # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
+  replicas: 1
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+## mixCoordinator contains all coord
+## If you want to use mixcoord, enable this and disable all of other coords
+mixCoordinator:
+  enabled: false
+  # You can set the number of replicas greater than 1, only if enable active standby
+  replicas: 1 # Run Mixture Coordinator mode with replication disabled
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
+  extraEnv: []
+  heaptrack:
+    enabled: false
+  profiling:
+    enabled: false # Enable live profiling
+  activeStandby:
+    enabled: false # Enable active-standby when you set multiple replicas for Mixture coordinator
+  # Deployment strategy, default is RollingUpdate
+  # Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-update-deployment
+  strategy: {}
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+attu:
+  enabled: false
+  name: attu
+  service:
+    annotations: {}
+    labels: {}
+    type: ClusterIP
+    port: 3000
+    # loadBalancerIP: ""
+  resources: {}
+  podLabels: {}
+  ingress:
+    enabled: false
+    ingressClassName: ""
+    annotations: {}
+    # Annotation example: set nginx ingress type
+    # kubernetes.io/ingress.class: nginx
+    labels: {}
+    hosts:
+      - milvus-attu.local
+    tls: []
+    #  - secretName: chart-attu-tls
+    #    hosts:
+    #      - milvus-attu.local
+## Configuration values for the minio dependency
+## Please refer to https://apps.rancher.io/applications/minio
+minio:
+  enabled: true
+  name: minio
+  mode: distributed
+  rootUser: "minioadmin"
+  rootPassword: "minioadmin"
+  existingSecret: ""
+  podDisruptionBudget:
+    enabled: false
+  resources:
+    requests:
+      memory: 2Gi
+  service:
+    type: ClusterIP
+    port: 9000
+  persistence:
+    enabled: true
+    existingClaim: ""
+    storageClass:
+    accessMode: ReadWriteOnce
+    size: 500Gi
+## Configuration values for the etcd dependency
+## https://apps.rancher.io/applications/etcd
+etcd:
+  enabled: true
+  name: etcd
+  replicaCount: 3
+  service:
+    enabled: true
+    annotations: {}
+    type: ClusterIP
+    nodePorts:
+      client: "2379"
+      peer: "2380"
+    ports:
+      client: "2379"
+      peer: "2380"
+  auth:
+    rbac:
+      enabled: false
+  persistence:
+    enabled: true
+    storageClassName:
+    accessModes:
+    - ReadWriteOnce
+## Configuration values for the kafka dependency
+##  
+kafka:
+  enabled: true
+  name: kafka
+  replicaCount: 3
+  broker:
+    enabled: true
+  cluster:
+    listeners:
+      client:
+        protocol: 'PLAINTEXT'
+      controller:
+        protocol: 'PLAINTEXT'
+  containerPorts:
+    client: 9092
+  persistence:
+    enabled: true
+    annotations: {}
+    labels: {}
+    existingClaim: ""
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 8Gi
+    storageClassName: ""
+
+###################################
+# External S3
+# - these configs are only used when `externalS3.enabled` is true
+###################################
+externalS3:
+  enabled: false
+  host: ""
+  port: ""
+  accessKey: ""
+  secretKey: ""
+  useSSL: false
+  bucketName: ""
+  rootPath: ""
+  useIAM: false
+  cloudProvider: "aws"
+  iamEndpoint: ""
+  region: ""
+  useVirtualHost: false
+###################################
+# GCS Gateway
+# - these configs are only used when `minio.gcsgateway.enabled` is true
+###################################
+externalGcs:
+  bucketName: ""
+###################################
+# External etcd
+# - these configs are only used when `externalEtcd.enabled` is true
+###################################
+externalEtcd:
+  enabled: false
+  ## the endpoints of the external etcd
+  ##
+  endpoints:
+    - localhost:2379
+###################################
+# External pulsar
+# - these configs are only used when `externalPulsar.enabled` is true
+###################################
+externalPulsar:
+  enabled: false
+  host: localhost
+  port: 6650
+  maxMessageSize: "5242880" # 5 * 1024 * 1024 Bytes, Maximum size of each message in pulsar.
+  tenant: public
+  namespace: default
+  authPlugin: ""
+  authParams: ""
+###################################
+# External kafka
+# - these configs are only used when `externalKafka.enabled` is true
+# - note that the following are just examples, you should confirm the
+#   value of brokerList and mechanisms according to the actual external
+#   Kafka configuration. E.g. If you select the AWS MSK, the configuration
+#   should look something like this:
+#   externalKafka:
+#     enabled: true
+#     brokerList: "xxxx:9096"
+#     securityProtocol: SASL_SSL
+#     sasl:
+#       mechanisms: SCRAM-SHA-512
+#       password: "xxx"
+#       username: "xxx"
+###################################
+externalKafka:
+  enabled: false
+  brokerList: localhost:9092
+  securityProtocol: SASL_SSL
+  sasl:
+    mechanisms: PLAIN
+    username: ""
+    password: ""
+
