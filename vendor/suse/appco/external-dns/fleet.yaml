@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/external-dns
-  version: 1.18.0
+  version: 1.19.0
   releaseName: external-dns
   valuesFrom:
     - configMapKeyRef:

@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/oauth2-proxy
-  version: 7.14.2
+  version: 8.3.1
   releaseName: oauth2-proxy
   valuesFrom:
     - configMapKeyRef:

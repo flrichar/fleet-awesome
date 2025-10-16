@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/redis
-  version: 2.3.0
+  version: 2.4.2
   releaseName: redis
   valuesFrom:
     - configMapKeyRef:

@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/valkey
-  version: 0.10.0
+  version: 0.10.3
   releaseName: valkey
   valuesFrom:
     - configMapKeyRef:

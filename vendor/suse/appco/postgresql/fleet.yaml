@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/postgresql
-  version: 0.3.12
+  version: 0.5.0
   releaseName: postgresql
   valuesFrom:
     - configMapKeyRef:

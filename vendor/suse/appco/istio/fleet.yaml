@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/istio
-  version: 0.8.3
+  version: 1.0.3
   releaseName: istio
   valuesFrom:
     - configMapKeyRef:

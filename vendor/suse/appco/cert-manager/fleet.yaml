@@ -6,7 +6,7 @@ labels:
 
 helm:
   chart: oci://dp.apps.rancher.io/charts/cert-manager
-  version: 1.17.2
+  version: 1.19.1
   releaseName: cert-manager
   valuesFrom:
     - configMapKeyRef:
