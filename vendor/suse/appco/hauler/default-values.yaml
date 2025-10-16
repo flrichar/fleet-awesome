@@ -1,0 +1,124 @@
+# Helm Chart Values for Hauler
+# Docs: https://hauler.dev
+global:
+  # -- Global override for container image registry
+  imageRegistry: ""
+  # -- Global override for container image registry pull secrets
+  imagePullSecrets: []
+hauler:
+  # labels:
+  #   key: value
+  # annotations:
+  #   key: value
+  image:
+    repository: containers/hauler
+    tag: 1.3.0-2.1
+    registry: dp.apps.rancher.io
+  imagePullPolicy: Always
+  initContainers:
+    image:
+      repository: containers/kubectl
+      tag: 1.34.1-1.9 # update to your kubernetes version
+      registry: dp.apps.rancher.io
+    imagePullPolicy: Always
+    timeout: 1h
+  data:
+    pvc:
+      accessModes: ReadWriteMany
+      # storageClass: longhorn # optional... will use default storage class
+      storageRequest: 48Gi # recommended size of 3x the artifact(s)
+  debug:
+    enabled: false
+    image:
+      repository: containers/hauler
+      tag: 1.3.0-2.1
+      registry: dp.apps.rancher.io
+    imagePullPolicy: Always
+    command: ["/bin/sh"]
+    args: ["-c", "sleep infinity"]
+# Helm Chart Values for the Hauler Jobs
+# Docs: https://docs.hauler.dev/docs/introduction/quickstart
+haulerJobs:
+  localNode: # set the name of the Kube node (kubectl get nodes) which contains the hauls/manifests/stores if using "local.hauls", "local.manifests", or "store" below
+  # not needed if only using "remote" sources
+  image:
+    repository: containers/hauler
+    tag: 1.3.0-2.1
+    registry: dp.apps.rancher.io
+  imagePullPolicy: Always
+  remote: # remote refers to hauls/manifests accessible via URLs
+    hauls:
+    # - path: https://raw.githubusercontent.com/hauler-dev/hauler/main/testdata/haul.tar.zst
+    #   name: remhaul.tar.zst
+    # - path: https://path/to/additional-hauls.tar.zst
+    #   name: additional-hauls.tar.zst
+    manifests:
+    # - path: https://raw.githubusercontent.com/hauler-dev/hauler/main/testdata/hauler-manifest.yaml
+    #   name: remhauler-manifest.yaml
+    # - path: https://path/to/additional-manifests.yaml
+    #   name: additional-manifests.yaml
+  local: # local refers to hauls/manifests accessible via the local filesystem/filepaths/filenames
+    hauls:
+    # - path: /usr/local/testdata/
+    #   name: haul.tar.zst
+    # - path: /path/to/directory/
+    #   name: additional-hauls.tar.zst
+    manifests:
+    # - path: /usr/local/testdata/
+    #   name: hauler-manifest.yaml
+    # - path: /path/to/directory/
+    #   name: additional-manifests.yaml
+  # store refers to a previously created hauler store directory and structure
+  # only the filepath is acceptable argument
+  store: # /path/to/previously/created/hauler/store/directory/
+# Helm Chart Values for the Hauler Fileserver
+# Docs: https://docs.hauler.dev/docs/hauler-usage/store/serve/fileserver
+haulerFileserver:
+  enabled: true
+  port: 8080 # default port for the fileserver
+  replicas: 1
+  delayStart: 0 # how long for health checks to wait to start checking, 15-second intervals
+  ingress:
+    enabled: true
+    # labels:
+    #   key: value
+    # annotations:
+    #   key: value
+    hostname: fileserver.ranchers.io
+    tls:
+      enabled: false
+      source: secret # only supported source
+      secretName: tls-certs # must be created outside of this chart
+  service:
+    enabled: true
+    type: ClusterIP
+    ports:
+      protocol: TCP
+      port: 8080 # default port for the fileserver
+      targetPort: 8080 # default port for the fileserver
+# Helm Chart Values for the Hauler Registry
+# Docs: https://docs.hauler.dev/docs/hauler-usage/store/serve/registry
+haulerRegistry:
+  enabled: true
+  port: 5000 # default port for the registry
+  replicas: 1
+  delayStart: 0 # how long for health checks to wait to start checking, in 15-second intervals
+  ingress:
+    enabled: true
+    # labels:
+    #   key: value
+    # annotations:
+    #   key: value
+    hostname: registry.ranchers.io
+    tls:
+      enabled: false
+      source: secret # only supported source
+      secretName: tls-certs # must be created outside of this chart
+  service:
+    enabled: true
+    type: ClusterIP
+    ports:
+      protocol: TCP
+      port: 5000 # default port for the registry
+      targetPort: 5000 # default port for the registry
+

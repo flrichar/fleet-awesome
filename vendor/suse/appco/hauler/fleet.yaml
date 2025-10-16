@@ -1,0 +1,19 @@
+---
+defaultNamespace: hauler
+
+labels:
+  fleet-bundle: hauler
+
+helm:
+  chart: oci://dp.apps.rancher.io/charts/hauler
+  version: 2.1.0
+  releaseName: hauler
+  takeOwnership: false
+
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        appco.hauler: enabled
+
+###
