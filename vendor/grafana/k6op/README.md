@@ -19,4 +19,15 @@ kubectl create configmap breakpoint --from-file=breakpoint.js --dry-run=client -
 
 [TestRun CRD Information](https://grafana.com/docs/k6/latest/set-up/set-up-distributed-k6/usage/executing-k6-scripts-with-testrun-crd/#run-k6-scripts-with-testrun-crd)
 
+The `TestRun` CRD is preferred over `PLZ` (PrivateLoadZones) which require the Grafana Cloud-based service. An important goal in the lab was to keep resrouces locally based as possible.
 
+### Experimentation Guidelines
+
+The `k6` binary can be used standalone, however I required an automated way to perform the load-tests from inside of a lab kubernetes cluster. Of all the [Load Test Types](https://grafana.com/docs/k6/latest/testing-guides/test-types/) the two I decided to use in the lab were the `Smoke` test representing the lower end baseline, and `Breakpoint`.
+
+* Smoke test is run against a local lab service to represent the baseline of service operations.
+* Breakpoint runs to accomodate about 20k virtual users (`vus`) in the lab, and should break at the 20k vus point.
+
+
+
+---
