@@ -7,5 +7,7 @@ The Daemonset manifest includes options flags set for controlplane, services, en
 The upstream developers also have a [manifest-gen site](https://thebsdbox.co.uk/kube-vip/) to expierment with, changing the manifest to a deployment or to support L2/ARP mode versuse L3/BGP mode.
 
 _TODO_
-- [ ] candidate for helmchart for ds, rbac, cloud-controller, cidr configmap, with values template for ASN, RouterID, & BGP Peers 
+- [X] include kustomizations for ds, rbac, cloud-controller
+- [ ] patches for cidr configmap, daemonset address, ASN, RouterID, & Peers 
 
+---
