@@ -5,7 +5,9 @@ labels:
   fleet-bundle: bitwarden-sm-operator
 
 helm:
-  chart: ./sm-operator-0.1.0-Beta.tgz
+  ##chart: ./sm-operator-0.1.0-Beta.tgz
+  repo: https://charts.bitwarden.com
+  chart: sm-operator
   releaseName: sm-operator
   valuesFiles:
     - values00.yaml

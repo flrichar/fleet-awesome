@@ -7,7 +7,7 @@ labels:
 helm:
   chart: self-host
   repo: https://charts.bitwarden.com
-  version: 2025.6.1
+  version: 2025.10.0
   releaseName: bitwarden-selfhost
   valuesFiles:
     - default-values.yaml

@@ -7,7 +7,7 @@ labels:
 helm:
   repo: https://charts.external-secrets.io
   chart: external-secrets
-  version: 0.17.0
+  version: 0.20.3
   releaseName: external-secrets-operator
   valuesFrom:
     - configMapKeyRef:
