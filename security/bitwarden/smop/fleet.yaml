@@ -8,6 +8,7 @@ helm:
   ##chart: ./sm-operator-0.1.0-Beta.tgz
   repo: https://charts.bitwarden.com
   chart: sm-operator
+  version: 1.0.0
   releaseName: sm-operator
   valuesFiles:
     - values00.yaml
