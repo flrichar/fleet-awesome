@@ -18,7 +18,7 @@ data:
     };
 
     export default () => {
-      const urlRes = http.get('http://l650-api.gxize.local:32163');
+      const urlRes = http.get('http://excalidraw.vikingtoe.dev');
       sleep(1);
       // MORE STEPS
       // Here you can have more steps or complex script
