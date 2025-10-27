@@ -2,6 +2,9 @@
 
 The k6-operator uses two CRDs, `TestRun` and  `PrivateLoadZones`, with the latter integrated with Grafana Cloud K6, this repo covers an example of the TestRun custom resource.
 
+
+#### Quick Start
+
 [Installation](https://grafana.com/docs/k6/latest/set-up/set-up-distributed-k6/install-k6-operator/)
 
 ```
@@ -21,7 +24,8 @@ kubectl create configmap breakpoint --from-file=breakpoint.js --dry-run=client -
 
 The `TestRun` CRD is preferred over `PLZ` (PrivateLoadZones) which require the Grafana Cloud-based service. An important goal in the lab was to keep resrouces locally based as possible.
 
-### Experimentation Guidelines
+
+### Experimentation & Evaluation Guidelines
 
 The `k6` binary can be used standalone, however I required an automated way to perform the load-tests from inside of a lab kubernetes cluster. Of all the [Load Test Types](https://grafana.com/docs/k6/latest/testing-guides/test-types/) the two I decided to use in the lab were the `Smoke` test representing the lower end baseline, and `Breakpoint`.
 
@@ -36,4 +40,30 @@ The local lab has several local web services, wikis, tools, general information 
 
 The K6 Smoke Test is good baseline test to run while the Breakpoint is good to push the limits of what the ingress controller should handle.
 
+Keeping in mind this current evaluation experiment is for RKE2 and ingress-nginx controller _only_.  Other alternatives like traefik or gateway-api or other ingress controllers do not apply.
+
+To limit ingress-nginx controller, a sample `HelmChartConfig` was created using the conventional naming `rke2-ingress-nginx` with the content setting `.controller.resources.requests` in the helm values to a preset lower value. The value can be raised later for any arbitrary value of `vus`, for example 20,000.
+
+
+```
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-ingress-nginx
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    controller:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      config:
+        use-forwarded-headers: "true"
+        keep-alive-requests: "2000"
+        upstream-keepalive-requests: "1000"
+        max-worker-connections: "1000"
+
+```
 ---
