@@ -5,13 +5,13 @@ export const options = {
   // Key configurations for breakpoint in this section
   executor: 'ramping-arrival-rate', //Assure load increase if the system slows
   stages: [
-    { duration: '2h', target: 20000 }, // just slowly ramp-up to a HUGE load
+    { duration: '6m', target: 20000 }, // just slowly ramp-up to a HUGE load
   ],
 };
 
 export default () => {
   const urlRes = http.get('http://excalidraw.vikingtoe.dev');
-  sleep(1);
+  sleep(0.10);
   // MORE STEPS
   // Here you can have more steps or complex script
   // Step1
