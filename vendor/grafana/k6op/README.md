@@ -33,7 +33,7 @@ The `k6` binary can be used standalone, however I required an automated way to p
 * Breakpoint runs to accomodate about 20k virtual users (`vus`) in the lab, and should break at the 20k vus point.
 
 
-#### History & Demo Explination
+#### History & Demo Explanation
 
 The local lab has several local web services, wikis, tools, general information sites and other applications. There was an issue with the nginx-ingress [not respecting cpu cgroup v2 limits](https://github.com/kubernetes/ingress-nginx/issues/9665), so a major goal was to limit the ingress-controller pod resources via resource requests and limits as much as possible, to prevent cpu resource exhaustion on the nodes. 
 
