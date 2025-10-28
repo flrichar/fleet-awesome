@@ -10,3 +10,15 @@ spec:
       name: k6-smoke-test
       file: smoke.js
 ###
+---
+apiVersion: k6.io/v1alpha1
+kind: TestRun
+metadata:
+  name: k6-testrun-breakpoint
+spec:
+  parallelism: 4
+  script:
+    configMap:
+      name: k6-breakpoint-test
+      file: breakpoint.js
+###

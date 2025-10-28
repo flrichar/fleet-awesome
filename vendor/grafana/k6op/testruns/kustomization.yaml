@@ -1,6 +1,7 @@
 ---
 resources:
   - smoke-test-ConfigMap.yaml
+  - breakpoint-ConfigMap.yaml
   - TestRun.yaml
 
 ###
