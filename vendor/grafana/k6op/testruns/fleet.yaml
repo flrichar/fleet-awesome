@@ -2,15 +2,15 @@
 defaultNamespace: default
 
 labels:
- fleet-bundle: k6op-smoketest
+ fleet-bundle: k6op-testruns
 
 kustomize:
   dir: ""
 
-overrideTargets:
-  - clusterGroupSelector:
-      matchLabels:
-        k6-operator: enabled
+###overrideTargets:
+###  - clusterGroupSelector:
+###      matchLabels:
+###        k6-operator: enabled
 
 dependsOn:
   - selector:
