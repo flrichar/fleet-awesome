@@ -42,7 +42,7 @@ The K6 Smoke Test is good baseline test to run while the Breakpoint is good to p
 
 Keeping in mind this current evaluation experiment is for RKE2 and ingress-nginx controller _only_.  Other alternatives like traefik or gateway-api or other ingress controllers do not apply.
 
-To limit ingress-nginx controller, a sample `HelmChartConfig` was created using the conventional naming `rke2-ingress-nginx` with the content setting `.controller.resources.requests` in the helm values to a preset lower value. The value can be raised later for any arbitrary value of `vus`, for example 20,000.
+To limit ingress-nginx controller, a sample `HelmChartConfig` was created using the conventional naming `rke2-ingress-nginx` with the content setting `.controller.resources.limits` in the helm values to a preset lower value. The value can be modified later for any arbitrary value of `vus`, for example 20,000. When the requests are left empty in the HelmChartConfig, the defaults are used for the chart, in this case 90m for CPU and 100Mi for Memory.
 
 
 ```
@@ -57,8 +57,8 @@ spec:
     controller:
       resources:
         limits:
-          cpu: 200m
-          memory: 128Mi
+          cpu: 300m
+          memory: 100Mi
       config:
         use-forwarded-headers: "true"
         keep-alive-requests: "2000"
@@ -66,4 +66,9 @@ spec:
         max-worker-connections: "1000"
 
 ```
+
+A completed test will demonstrate how many VUs the ingress-controller can adequately handle at the current resource level set in the HelmChartConfig. When the test reaches the BreakPoint, it will either drop connections from cpu exhaustion or trigger an out-of-memory (OOM) error for memory exhaustion. This pattern is much like a circuit breaker.
+
+The behavior of the breakpoint test, wether memory or cpu exhausts first depend on many factors, including how the application operates and its structure.
+
 ---
