@@ -10,8 +10,8 @@ export const options = {
 };
 
 export default () => {
-  const urlRes = http.get('http://excalidraw.vikingtoe.dev');
-  sleep(0.10);
+  const urlRes = http.get('http://whoami.vikingtoe.dev/data?size=1&unit=mb');
+  sleep(0.20);
   // MORE STEPS
   // Here you can have more steps or complex script
   // Step1
