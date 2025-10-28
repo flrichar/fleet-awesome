@@ -10,7 +10,7 @@ data:
     import { check, sleep} from 'k6';
 
     export const options = {
-      vus: 4, // Key for Smoke test. Keep it at 2, 3, max 5 VUs
+      vus: 2, // Key for Smoke test. Keep it at 2, 3, max 5 VUs
       duration: '4m', // This can be shorter or just a few iterations
     };
 

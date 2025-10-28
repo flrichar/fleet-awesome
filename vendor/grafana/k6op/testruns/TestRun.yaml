@@ -4,7 +4,7 @@ kind: TestRun
 metadata:
   name: k6-testrun-smoketest
 spec:
-  parallelism: 4
+  parallelism: 2
   script:
     configMap:
       name: k6-smoke-test
@@ -16,7 +16,7 @@ kind: TestRun
 metadata:
   name: k6-testrun-breakpoint
 spec:
-  parallelism: 4
+  parallelism: 2
   script:
     configMap:
       name: k6-breakpoint-test
