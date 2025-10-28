@@ -8,7 +8,7 @@ The k6-operator uses two CRDs, `TestRun` and  `PrivateLoadZones`, with the latte
 [Installation](https://grafana.com/docs/k6/latest/set-up/set-up-distributed-k6/install-k6-operator/)
 
 ```
-helm install step
+## helm install commands
 
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
@@ -33,7 +33,7 @@ The `k6` binary can be used standalone, however I required an automated way to p
 * Breakpoint runs to accomodate about 20k virtual users (`vus`) in the lab, and should break at the 20k vus point.
 
 
-#### History
+#### History & Demo Explination
 
 The local lab has several local web services, wikis, tools, general information sites and other applications. There was an issue with the nginx-ingress [not respecting cpu cgroup v2 limits](https://github.com/kubernetes/ingress-nginx/issues/9665), so a major goal was to limit the ingress-controller pod resources via resource requests and limits as much as possible, to prevent cpu resource exhaustion on the nodes. 
 
@@ -70,5 +70,13 @@ spec:
 A completed test will demonstrate how many VUs the ingress-controller can adequately handle at the current resource level set in the HelmChartConfig. When the test reaches the BreakPoint, it will either drop connections from cpu exhaustion or trigger an out-of-memory (OOM) error for memory exhaustion. This pattern is much like a circuit breaker.
 
 The behavior of the breakpoint test, wether memory or cpu exhausts first depend on many factors, including how the application operates and its structure.
+
+
+#### Goals, Evaluations to Consider
+
+* How many users can the local lab support?
+* What values for the ingress-controller limits make sense?
+* Does the Application require more resources? Is it light or heavy?
+* Does it make sense to circuit-break if the ingress-controller receives too many requests?
 
 ---
