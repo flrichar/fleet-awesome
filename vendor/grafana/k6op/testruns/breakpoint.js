@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default () => {
-  const urlRes = http.get('http://whoami.vikingtoe.dev/data?size=1&unit=mb');
+  const urlRes = http.get('http://whoami.vikingtoe.dev/data?size=500&unit=kb');
   sleep(0.20);
   // MORE STEPS
   // Here you can have more steps or complex script
