@@ -10,10 +10,10 @@ helm:
   version: 2.18.1
   releaseName: keda
   takeOwnership: false
-  valuesFrom:
-    - configMapKeyRef:
-        name: keda-values
-        key: values.yaml
+  ##valuesFrom:
+  ##  - configMapKeyRef:
+  ##      name: keda-values
+  ##      key: values.yaml
 
 overrideTargets:
   - clusterGroupSelector:
