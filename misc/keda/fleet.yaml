@@ -1,0 +1,23 @@
+---
+defaultNamespace: keda
+
+labels:
+  fleet-bundle: keda
+
+helm:
+  repo: https://kedacore.github.io/charts
+  chart: keda
+  version: 2.18.1
+  releaseName: keda
+  takeOwnership: false
+  valuesFrom:
+    - configMapKeyRef:
+        name: keda-values
+        key: values.yaml
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        kedacore.keda: enabled
+
+###
