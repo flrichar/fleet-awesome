@@ -1,0 +1,28 @@
+---
+defaultNamespace: rabbitmq-system
+
+labels:
+  fleet-bundle: rabbitmq
+
+helm:
+  repo: https://charts.bitnami.com/bitnami
+  chart: rabbitmq
+  version: 16.0.14
+  releaseName: rabbitmq
+  takeOwnership: false
+  valuesFiles:
+    - values.yaml
+#  valuesFrom:
+#    - configMapKeyRef:
+#        name: rabbitmq-values
+#        key: values.yaml
+#    - secretKeyRef:
+#        name: rabbitmq-values
+#        key: values.yaml
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        rabbitmq: enabled
+
+###
