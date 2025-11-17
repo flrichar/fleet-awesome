@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: minio
-          image: minio/minio:RELEASE.2025-04-08T15-41-24Z
+          image: minio/minio:RELEASE.2025-09-07T16-13-09Z
           imagePullPolicy: always
           args: ['server', '/data', '--console-address', ':9001']
           ports:
