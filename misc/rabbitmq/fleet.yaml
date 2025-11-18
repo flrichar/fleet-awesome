@@ -10,8 +10,6 @@ helm:
   version: 16.0.14
   releaseName: rabbitmq
   takeOwnership: false
-  values:
-    auth.password: PASSWORD
   valuesFiles:
     - values.yaml
 #  valuesFrom:
