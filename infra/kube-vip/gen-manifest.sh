@@ -1,6 +1,6 @@
 #!/bin/sh
 
-KVVERS='v1.0.1'
+KVVERS='v1.0.2'
 CONTAINERD_ADDRESS='/run/k3s/containerd/containerd.sock'
 CONTAINERD_NAMESPACE='k8s.io'
 TIMESTAMP=$(date +%s)
