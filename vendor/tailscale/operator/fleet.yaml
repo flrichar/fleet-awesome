@@ -7,7 +7,7 @@ labels:
 helm:
   repo: https://pkgs.tailscale.com/helmcharts
   chart: tailscale-operator
-  version: 1.88.4
+  version: 1.90.8
   releaseName: tailscale-operator
   takeOwnership: false
   values:
