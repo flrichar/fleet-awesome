@@ -15,7 +15,7 @@ helm:
       frr:
         enabled: true
 
-overriteTargets:
+overrideTargets:
   - clusterGroupSelector:
       matchLabels:
         metallb: enabled
