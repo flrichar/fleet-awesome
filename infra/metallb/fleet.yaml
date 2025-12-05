@@ -1,0 +1,23 @@
+---
+defaultNamespace: metallb-system
+
+labels:
+  fleet-bundle: metallb
+
+helm:
+  chart: metallb
+  repo: https://metallb.github.io/metallb
+  version: 0.15.3 
+  releaseName: metallb
+  takeOwnership: false
+  values:
+    speaker:
+      frr:
+        enabled: true
+
+overriteTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        metallb: enabled
+
+### 
