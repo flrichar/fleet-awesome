@@ -7,7 +7,7 @@ labels:
 helm:
   repo: https://charts.ngrok.com
   chart: ngrok-operator
-  version: 0.20.0
+  version: 0.21.1
   releaseName: ngrok-operator
   takeOwnership: false
   values:
