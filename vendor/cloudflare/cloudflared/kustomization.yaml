@@ -5,6 +5,6 @@ resources:
 images:
 - name: cloudflare/cloudflared
   newName: cloudflare/cloudflared
-  newTag: 2025.11.1
+  newTag: 2026.1.1
 
 ###
