@@ -9,6 +9,7 @@ Other Notes:
  * See here: https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-7---deploy-a-tls-ingress-resource
  * This can be the cfssl Issuer for internal CA / MultiRootCA
  * Zerk422 has ClusterIssuer.cfssl-issuer.wikimedia.org, different than cert-manager's ClusterIssuer/Issuer ...
+ * Added optional `Gateway API` resources, Gateway & HTTPRoute
 
 _TODO_
 - [ ] test for portability
