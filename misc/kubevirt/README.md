@@ -1,6 +1,6 @@
 ### KubeVirt Operator
 
-Currently version 1.5.1, for Kubernetes 1.30, 1.31, and 1.32. See the [user guide](https://kubevirt.io/user-guide/) for more information.
+Currently version 1.7.0, for Kubernetes 1.32, 1.33, and 1.34. See the [user guide](https://kubevirt.io/user-guide/) for more information.
 
 _TODO_
 
