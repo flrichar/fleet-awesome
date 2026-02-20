@@ -1,0 +1,17 @@
+---
+defaultNamespace: garage
+
+labels:
+  fleet-bundle: garage
+
+helm:
+  chart: oci://registry-1.docker.io/flrichar/garage
+  version: 0.9.2
+  releaseName: garage
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        flrichar.garage: enabled
+
+###
