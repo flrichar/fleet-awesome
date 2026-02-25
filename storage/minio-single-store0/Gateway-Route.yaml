@@ -7,8 +7,9 @@ metadata:
 spec:
   gatewayClassName: istio
   addresses:
-  - type: IPAddress
-    value: "10.16.22.185"
+  infrastructure:
+    annotations:
+      metallb.io/loadBalancerIPs: 10.16.24.48
   listeners:
   - allowedRoutes:
       namespaces:
