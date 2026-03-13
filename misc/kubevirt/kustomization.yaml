@@ -1,5 +1,5 @@
 ---
 resources:
-  - https://github.com/kubevirt/kubevirt/releases/download/v1.7.0/kubevirt-operator.yaml
+  - https://github.com/kubevirt/kubevirt/releases/download/v1.7.1/kubevirt-operator.yaml
 
 ###
