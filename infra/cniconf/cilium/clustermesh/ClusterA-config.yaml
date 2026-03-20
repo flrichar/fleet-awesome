@@ -1,0 +1,6 @@
+node-name: acluster-node1
+write-kubeconfig-mode: "0640"
+cluster-cidr: 10.128.32.0/22
+service-cidr: 10.128.48.0/22
+cni: cilium
+disable: rke2-ingress-nginx
