@@ -5,7 +5,7 @@ labels:
   fleet-bundle: bw-sdk-server
 
 helm:
-  chart: oci://ghcr.io/external-secrets/charts/bitwarden-sdk-server:v0.5.2
+  chart: oci://ghcr.io/external-secrets/charts/bitwarden-sdk-server:v0.6.0
   releaseName: bw-sdk-server
   takeOwnership: false
   valuesFrom:
