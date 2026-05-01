@@ -35,7 +35,7 @@ See the Fleet docs about [bundle lifecycle stages](https://fleet.rancher.io/ref-
   
 ## Category Structure
 
- * _LLMAI_ - Tooling to assist with AI & LLM related workloads and experiments in your lab c:wluster environment.
+ * _LLMAI_ - Tooling to assist with AI & LLM related workloads and experiments in your lab cluster environment.
  * _Infra_ - infrastructure-related assets, including CNI configurations, K8s distributions, dual-stack, and ingresses.
  * _Misc_ - any example or asset that does not fit into other categories, or upstream open source projects that might be covered in AppCo.
  * _Security_ - security-focused and other related topics, secrets, service mesh, mtls.
