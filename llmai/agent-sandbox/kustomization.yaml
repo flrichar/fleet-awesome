@@ -1,3 +1,4 @@
 resources:
-- https://github.com/kubernetes-sigs/agent-sandbox/releases/download/v0.4.2/manifest.yaml
-
+- https://github.com/kubernetes-sigs/agent-sandbox/releases/download/v0.4.3/manifest.yaml
+#- https://github.com/kubernetes-sigs/agent-sandbox/releases/download/v0.4.3/extensions.yaml
+ 
