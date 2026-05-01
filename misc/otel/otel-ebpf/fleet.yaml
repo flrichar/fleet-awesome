@@ -13,7 +13,7 @@ helm:
 
 overrideTargets:
   - clusterGroupSelector:
-     matchLabels:
-       opentelemetry.otel-ebpf: enabled
+      matchLabels:
+        opentelemetry.otel-ebpf: enabled
 
 ###

@@ -9,7 +9,7 @@ kustomize:
 
 helm:
   releaseName: kubevirt
-  version: v1.5.1
+  version: v1.7.3
   takeOwnership: false
 
 ###
