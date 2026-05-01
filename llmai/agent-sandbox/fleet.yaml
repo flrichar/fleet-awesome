@@ -1,0 +1,20 @@
+---
+defaultNamespace: agent-sandbox-system
+
+labels:
+ fleet-bundle: agent-sandbox
+
+kustomize:
+  dir: ""
+
+helm:
+ releaseName: agent-sandbox
+ version: 0.4.3
+ takeOwnership: false
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        agent-sandbox: enabled
+
+###
