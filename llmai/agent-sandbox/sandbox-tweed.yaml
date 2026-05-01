@@ -1,0 +1,25 @@
+---
+apiVersion: agents.x-k8s.io/v1alpha1
+kind: Sandbox
+metadata:
+  name: tweed-0429
+spec:
+  podTemplate:
+    spec:
+      containers:
+      - name: tumbleweed
+        image: registry.opensuse.org/opensuse/tumbleweed:20260429
+
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "trap : TERM INT; sleep infinity & wait" ]
+        resources:
+          limits:
+            memory: 300Mi
+            cpu: 500m
+          requests:
+            memory: 128Mi
+            cpu: 100m
+      restartPolicy: Always
+
+###
