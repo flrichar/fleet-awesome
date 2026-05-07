@@ -6,3 +6,11 @@ This directory holds the primary `agent-sandbox` operator that uses the `Sandbox
 
 For more information, see the [Agent Sandbox SIG Documentation](https://agent-sandbox.sigs.k8s.io/docs/). 
 
+### Requirements
+
+Additional `RuntimeClass` resources are necessary for secure isolation.
+
+* `kata-deploy` for vm-level kata-containers
+* `gvisor` for kernel-level isolation
+
+---
