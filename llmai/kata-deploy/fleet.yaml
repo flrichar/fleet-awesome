@@ -1,0 +1,25 @@
+---
+defaultNamespace: kube-system
+
+labels:
+  fleet-bundle: kata-deploy
+
+helm:
+  chart: oci://ghcr.io/kata-containers/kata-deploy-charts/kata-deploy
+  releaseName: kata-deploy
+  version: 3.30.0
+  takeOwnership: false
+
+overrideTargets:
+  - clusterGroupSelector:
+      matchLabels:
+        kata-deploy: enabled
+
+values:
+  k8sDistribution: k3s
+  qemu:
+    enabled: true
+  shims:
+    disableAll: true
+
+###
