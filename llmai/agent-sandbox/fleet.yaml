@@ -9,7 +9,7 @@ kustomize:
 
 helm:
   releaseName: agent-sandbox
-  version: 0.4.3
+  version: 0.4.5
   takeOwnership: false
 
 overrideTargets:
