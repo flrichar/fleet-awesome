@@ -7,13 +7,14 @@ labels:
 helm:
   chart: metallb
   repo: https://metallb.github.io/metallb
-  version: 0.15.3 
+  version: 0.16.0
   releaseName: metallb
   takeOwnership: false
   values:
-    speaker:
-      frr:
-        enabled: true
+    frr-k8s:
+      prometheus:
+        serviceMonitor:
+          enabled: false
 
 overrideTargets:
   - clusterGroupSelector:
