@@ -7,7 +7,7 @@ labels:
 helm:
   chart: istiod
   repo: https://istio-release.storage.googleapis.com/charts
-  version: 1.27.1
+  version: 1.28.7
   values:
     istiod:
       profile: minimal
