@@ -5,5 +5,5 @@ Longhorn is free, open source software. Originally developed by Rancher Labs, it
 
 This Fleet bundle installs the Helm chart with safe values to ignore changes in modified CRDs to prevent the Bundle from showing as `Modified`.
 
-See the docs for [installing via Fleet](https://longhorn.io/docs/1.8.1/deploy/install/install-with-fleet/), included is a sample GitRepo from the documentation, with `keepResources: true` enabled for safety.
+See the docs for [installing via Fleet](https://longhorn.io/docs/1.11.2/deploy/install/install-with-fleet/), included is a sample GitRepo from the documentation, with `keepResources: true` enabled for safety.
 
