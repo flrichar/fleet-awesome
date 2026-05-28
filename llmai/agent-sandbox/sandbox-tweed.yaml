@@ -2,13 +2,13 @@
 apiVersion: agents.x-k8s.io/v1alpha1
 kind: Sandbox
 metadata:
-  name: tweed-0505
+  name: tweed-0527
 spec:
   podTemplate:
     spec:
       containers:
       - name: tumbleweed
-        image: registry.opensuse.org/opensuse/tumbleweed:20260505
+        image: registry.opensuse.org/opensuse/tumbleweed:20260527
 
         imagePullPolicy: IfNotPresent
         command: [ "/bin/bash", "-c", "--" ]
