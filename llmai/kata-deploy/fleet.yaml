@@ -7,7 +7,7 @@ labels:
 helm:
   chart: oci://ghcr.io/kata-containers/kata-deploy-charts/kata-deploy
   releaseName: kata-deploy
-  version: 3.30.0
+  version: 3.31.0
   takeOwnership: false
 
 overrideTargets:
